@@ -66,7 +66,6 @@ cache = {}
 CACHE_TTL = 600  # seconds
 
 def fetch_weather(city):
-    """Fetch weather data for a city (using OpenWeatherMap)."""
     if not city:
         print(Fore.RED + "No city provided.")
         return None
@@ -107,7 +106,6 @@ def fetch_weather(city):
     return data
 
 def parse_weather(data):
-    """Extract fields from API JSON."""
     if not data: return None
     weather = data["weather"][0]
     main = data["main"]
@@ -136,7 +134,6 @@ WEATHER_ICONS = {
 }
 
 def format_weather(info):
-    """Format the weather info for display."""
     if not info: return ""
     city = info["city"]
     cond = info["condition"]
@@ -153,7 +150,6 @@ def format_weather(info):
     return f"{line1}\n{line2}\n{line3}\n{line4}"
 
 def save_history(city, info):
-    """Add a search entry to history."""
     entry = {
         "city": city.title(),
         "when": datetime.now().isoformat(timespec="seconds"),
