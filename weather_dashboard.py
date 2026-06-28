@@ -255,3 +255,31 @@ def menu_stats():
     print(f"Coldest search: {coldest}")
 
 
+def main():
+    while True:
+        print(Fore.MAGENTA + "\n=== Weather Dashboard ===")
+        print("1. Search weather")
+        print("2. View history")
+        print("3. Favorites")
+        print("4. Statistics")
+        print("5. Exit")
+        choice = input("Choose an option [1-5]: ").strip()
+        if choice == '1':
+            menu_search()
+        elif choice == '2':
+            menu_history()
+        elif choice == '3':
+            menu_favorites()
+        elif choice == '4':
+            menu_stats()
+        elif choice == '5':
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice.")
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nExiting.")
