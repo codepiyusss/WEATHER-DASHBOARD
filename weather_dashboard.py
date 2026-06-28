@@ -214,3 +214,44 @@ def menu_history():
             save_json_atomic(HISTORY_FILE, history_data)
             print(f"Removed {removed['city']} from history.")
 
+def menu_favorites():
+    favs = fav_data.get("favorites", [])
+    if not favs:
+        print("No favorites yet.")
+        return
+    for idx, city in enumerate(favs, 1):
+        print(f"{idx}. {city}")
+    print("Enter number to view weather, or 'r'+num to remove (e.g. r2), or Enter to return.")
+    choice = input("Choice: ").strip().lower()
+    if choice.startswith('r') and choice[1:].isdigit():
+        i = int(choice[1:]) - 1
+        if 0 <= i < len(favs):
+            remove_favorite(favs[i])
+    elif choice.isdigit():
+        i = int(choice) - 1
+        if 0 <= i < len(favs):
+            data = fetch_weather(favs[i])
+            info = parse_weather(data)
+            if info:
+                print(format_weather(info))
+    # else: return
+
+def menu_stats():
+    hist = history_data.get("history", [])
+    if not hist:
+        print("No history to analyze.")
+        return
+    # Most searched city
+    counts = {}
+    for e in hist:
+        counts[e["city"]] = counts.get(e["city"], 0) + 1
+    top_city = max(counts, key=counts.get)
+    # Hottest / coldest search
+    temps = [(e["temp"], e["city"]) for e in hist]
+    hottest = max(temps)[1]
+    coldest = min(temps)[1]
+    print(f"Most searched city: {top_city} ({counts[top_city]} times)")
+    print(f"Hottest search: {hottest}")
+    print(f"Coldest search: {coldest}")
+
+
